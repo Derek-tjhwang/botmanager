@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    deployment: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catslab
+      pod: postgres
+  template:
+    metadata:
+      labels:
+        app: catslab
+        pod: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:10.8
+          imagePullPolicy: "IfNotPresent"
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: catslab-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim

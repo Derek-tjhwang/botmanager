@@ -1,0 +1,41 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: django
+  labels:
+    deployment: django
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catslab
+      pod: django
+  template:
+    metadata:
+      labels:
+        app: catslab
+        pod: django
+    spec:
+      containers:
+        - name: django
+          image: derekhwang/botmanager:manager0.1v
+          imagePullPolicy: "Always"
+          volumeMounts:
+          - mountPath: /etc/localtime
+            name: timezone-config
+          - mountPath: /config
+            name: config-pv
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: catslab-config
+          command: ["gunicorn", "botmanager.wsgi:application", "--bind", "0.0.0.0:8000"]
+      volumes:
+      - name: timezone-config
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Seoul
+      - name: config-pv
+        persistentVolumeClaim:
+          claimname: config-pv-claim

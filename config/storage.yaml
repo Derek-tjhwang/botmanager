@@ -1,0 +1,29 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: config-pv-volume
+  labels:
+    app: nfs
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: {your-nfs-server-host}
+    path: "/data/config"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: config-pv-claim
+  labels:
+    app: nfs
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

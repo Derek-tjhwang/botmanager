@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    deployment: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: catslab
+      pod: nginx
+  template:
+    metadata:
+      labels:
+        app: catslab
+        pod: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: derekhwang/botmanager:nginx0.1v
+          imagePullPolicy: "Always"
+          ports:
+          - containerPort: 80
+            protocol: TCP

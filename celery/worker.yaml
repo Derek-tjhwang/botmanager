@@ -1,0 +1,41 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: celery-worker
+  labels:
+    deployment: celery-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catslab
+      pod: celery-worker
+  template:
+    metadata:
+      labels:
+        app: catslab
+        pod: celery-worker
+    spec:
+      containers:
+        - name: celery-worker
+          image: derekhwang/botmanager:manager0.1v
+          imagePullPolicy: "Always"
+          volumeMounts:
+          - mountPath: /etc/localtime
+            name: timezone-config
+          - mountPath: /config
+            name: config-pv
+          command: ['celery', '-A', 'botmanager', 'worker', '-l', 'info']
+          env:
+            - name: C_FORCE_ROOT
+              value: "True"
+          envFrom:
+            - configMapRef:
+                name: catslab-config
+      volumes:
+      - name: timezone-config
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Seoul
+      - name: config-pv
+        persistentVolumeClaim:
+          claimName: config-pv-claim

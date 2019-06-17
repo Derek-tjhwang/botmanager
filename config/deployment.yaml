@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beata1
+kind: Deployment
+metadata:
+  name: config
+  labels:
+    deployment: config
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catslab
+      pod: config
+  template:
+    metadata:
+      labels:
+        app: catslab
+        pod: config
+    spec:
+      containers:
+        - name: config
+          image: derekhwawng/botmanager:manager0.1v
+          imagePullPolicy: "IfNotPresent"
+          volumeMounts:
+            - mountPath: /config
+              name: configPV
+      volumes:
+        - name: configPV
+          persistentVolumeClaim:
+            claimName: nfs-pv-claim

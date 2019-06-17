@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    deployment: redis
+spec:
+  selector:
+    matchLabels:
+      app: catslab
+      pod: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: catslab
+        pod: redis
+    spec:
+      containers:
+        - name: master
+          image: redis:5.0.5
+          volumeMounts:
+          - mountPath: /etc/localtime
+            name: timezone-config
+          ports:
+          - containerPort: 6379
+            protocol: TCP
+      volumes:
+      - name: timezone-config
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Seoul
