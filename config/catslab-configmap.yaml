@@ -9,7 +9,7 @@ data:
   BM_SECRET_KEY: {your-django-secret-key}
   REDIS_HOST: redis-service
   REDIS_PORT: "6379"
-  K8S_BOT_IMAGE: derekhwang/botmanager:manager0.1v
+  K8S_BOT_IMAGE: {your-bot-image}
   K8S_BOT_NAMESPACE: coza-bot
   K8S_CONFIG_PATH: /config
   K8S_IMG_PULL_SECRET: {your-image-pull-secret-name}

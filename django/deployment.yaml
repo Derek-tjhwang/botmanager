@@ -38,4 +38,4 @@ spec:
           path: /usr/share/zoneinfo/Asia/Seoul
       - name: config-pv
         persistentVolumeClaim:
-          claimname: config-pv-claim
+          claimName: config-pv-claim
