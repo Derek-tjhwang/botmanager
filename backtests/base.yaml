@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: tsm-day
+spec:
+  schedule: 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: tsm-day
+            image: 
+            command: []
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - mountPath: /etc/localtime
+              name: timezone-config
+            env:
+              - name: COZA_USER_UUID
+                value: 
+          imagePullSecrets:
+          - name: regcred
+          volumes:
+          - name: timezone-config
+            hostPath:
+              path: /usr/share/zoneinfo/Asia/Seoul
