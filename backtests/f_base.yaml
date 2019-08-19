@@ -1,0 +1,37 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {}
+spec:
+  schedule: "0 */3 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {}
+            image: {}
+            resources:
+              requests:
+                cpu: "100m"
+              limits:
+                cpu: "300m"
+            command: ["python3", "-u", "/coza/tsm_run.py", "-e", "coinone", "-t", "fullm", "-m", "{Your Model Name}"]
+            imagePullPolicy: Always
+            volumeMounts:
+            - mountpath: /etc/localtime
+              name: timezone-config
+            env:
+              - name: COZA_USER_UUID
+                value: {}
+              - name: COZA_HOST
+                value: https://api.coza.me
+              - name: COZA_SECRET
+                value: {}
+          imagePullSecrets:
+          - name: {}
+          volumes:
+          - name: timezone-config
+            hostPath:
+              path: /usr/share/zoneinfo/Asia/Seoul
+          restartPolicy: Never
