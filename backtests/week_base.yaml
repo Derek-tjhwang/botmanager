@@ -19,7 +19,7 @@ spec:
             command: ["python3", "-u", "/coza/tsm_run.py", "-e", "coinone", "-t", "week", "-m", "{Your Model Name}"]
             imagePullPolicy: Always
             volumeMounts:
-            - mountpath: /etc/localtime
+            - mountPath: /etc/localtime
               name: timezone-config
             env:
               - name: COZA_USER_UUID
